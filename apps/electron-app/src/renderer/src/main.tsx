@@ -1,15 +1,31 @@
 import './assets/main.css'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import { init as electronInit } from '@sentry/electron/renderer'
 import { init as reactInit } from '@sentry/react'
-import * as ElectronSentry from '@sentry/electron/renderer'
+import * as ReactSentry from '@sentry/react'
+import {
+  useLocation,
+  useNavigationType,
+  createRoutesFromChildren,
+  matchRoutes
+} from 'react-router-dom'
+import AppRoutes from './routes'
+import App from './App'
 
 electronInit(
   {
-    integrations: [ElectronSentry.browserTracingIntegration(), ElectronSentry.replayIntegration()],
+    integrations: [
+      ReactSentry.reactRouterV6BrowserTracingIntegration({
+        useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes
+      }),
+      ReactSentry.replayIntegration()
+    ],
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -25,11 +41,12 @@ electronInit(
     replaysOnErrorSampleRate: 1.0
     /* config */
   },
-  reactInit({})
+  reactInit
 )
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <AppRoutes></AppRoutes>
+    {/* <App></App> */}
   </React.StrictMode>
 )
