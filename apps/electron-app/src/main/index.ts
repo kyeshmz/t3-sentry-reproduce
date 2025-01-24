@@ -4,9 +4,9 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as Sentry from '@sentry/electron/main'
 
-// Sentry.init({
-//   dsn: 'https://6c21638310d8a76a4d31aa83fb9687c3@o4506358373285888.ingest.us.sentry.io/4508282058833920'
-// })
+Sentry.init({
+  dsn: 'https://6c21638310d8a76a4d31aa83fb9687c3@o4506358373285888.ingest.us.sentry.io/4508282058833920'
+})
 
 function createWindow(): void {
   // Create the browser window.
